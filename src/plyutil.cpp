@@ -15,10 +15,11 @@
 // with this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+#include <flatshaper/plyutil.hpp>
+
 #include <fstream>
 #include <charconv>
 
-#include <flatshaper/plyutil.hpp>
 
 namespace flatshaper {
     std::ifstream &read_next_line(std::ifstream &input_stream, std::string &line) {
@@ -53,7 +54,7 @@ namespace flatshaper {
         return out;
     }
 
-    bool parse_ply_binary(std::ifstream &ply_input_stream,
+    void parse_ply_binary(std::ifstream &ply_input_stream,
                           std::vector<float> &vertex_data,
                           std::vector<uint32_t> &element_data,
                           uint32_t vertex_count,
@@ -135,11 +136,9 @@ namespace flatshaper {
             element_data.push_back(face_vertices[1]);
             element_data.push_back(face_vertices[2]);
         }
-
-        return true;
     }
 
-    bool parse_ply_ascii(std::ifstream &ply_input_stream,
+    void parse_ply_ascii(std::ifstream &ply_input_stream,
                          std::vector<float> &vertex_data,
                          std::vector<uint32_t> &element_data,
                          uint32_t vertex_count,
@@ -193,11 +192,9 @@ namespace flatshaper {
             element_data.push_back(face_second_vertex);
             element_data.push_back(face_third_vertex);
         }
-
-        return true;
     }
 
-    bool parse_ply(const std::filesystem::path &ply_file,
+    void parse_ply(const std::filesystem::path &ply_file,
                    std::vector<float> &vertex_data,
                    std::vector<uint32_t> &element_data) {
         std::ifstream ply_input_stream(ply_file);
@@ -370,34 +367,32 @@ namespace flatshaper {
             element_data.reserve(face_count * 3);
 
             if (is_ascii) {
-                return parse_ply_ascii(ply_input_stream,
-                                       vertex_data,
-                                       element_data,
-                                       vertex_count,
-                                       face_count,
-                                       property_count,
-                                       property_x_index,
-                                       property_y_index,
-                                       property_z_index,
-                                       property_s_index,
-                                       property_t_index);
+                parse_ply_ascii(ply_input_stream,
+                                vertex_data,
+                                element_data,
+                                vertex_count,
+                                face_count,
+                                property_count,
+                                property_x_index,
+                                property_y_index,
+                                property_z_index,
+                                property_s_index,
+                                property_t_index);
             } else {
-                return parse_ply_binary(ply_input_stream,
-                                        vertex_data,
-                                        element_data,
-                                        vertex_count,
-                                        face_count,
-                                        property_list_vertex_indices_count_type,
-                                        property_list_vertex_indices_index_type,
-                                        property_count,
-                                        property_x_index,
-                                        property_y_index,
-                                        property_z_index,
-                                        property_s_index,
-                                        property_t_index);
+                parse_ply_binary(ply_input_stream,
+                                 vertex_data,
+                                 element_data,
+                                 vertex_count,
+                                 face_count,
+                                 property_list_vertex_indices_count_type,
+                                 property_list_vertex_indices_index_type,
+                                 property_count,
+                                 property_x_index,
+                                 property_y_index,
+                                 property_z_index,
+                                 property_s_index,
+                                 property_t_index);
             }
         }
-
-        return true;
     }
 }

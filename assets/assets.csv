@@ -1,0 +1,5 @@
+1;MODEL;models/sprite.ply
+2;DIFFUSE;models/flat_diffuse.png
+3;NORMAL;models/neutral_normal.png
+4;VERTEX;shaders/VertexShader.glsl
+5;FRAGMENT;shaders/FragmentShader.glsl

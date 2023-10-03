@@ -15,16 +15,26 @@
 // with this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-#ifndef FLATSHAPER_PLYUTIL_HPP
-#define FLATSHAPER_PLYUTIL_HPP
+#include <flatshaper/entity.hpp>
 
-#include <filesystem>
-#include <vector>
+#include <unordered_set>
 
 namespace flatshaper {
-    void parse_ply(const std::filesystem::path &ply_file,
-                   std::vector<float> &vertex_data,
-                   std::vector<uint32_t> &element_data);
-}
+    entityid_t next_id = 1;
+    std::unordered_set<entityid_t> deleted_ids;
 
-#endif
+    entityid_t generate_entity_id() {
+        entityid_t id = next_id;
+        next_id++;
+
+        return id;
+    }
+
+    void delete_entity(entityid_t entityid) {
+        deleted_ids.insert(entityid);
+    }
+
+    bool is_entity_valid(entityid_t entityid) {
+        return deleted_ids.empty() ||  deleted_ids.find(entityid) != deleted_ids.end();
+    }
+}

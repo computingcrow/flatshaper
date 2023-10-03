@@ -15,16 +15,19 @@
 // with this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-#ifndef FLATSHAPER_PLYUTIL_HPP
-#define FLATSHAPER_PLYUTIL_HPP
+#ifndef FLATSHAPER_GLUTIL_HPP
+#define FLATSHAPER_GLUTIL_HPP
 
-#include <filesystem>
+#include <glad/glad.h>
+
 #include <vector>
+#include <filesystem>
+
 
 namespace flatshaper {
-    void parse_ply(const std::filesystem::path &ply_file,
-                   std::vector<float> &vertex_data,
-                   std::vector<uint32_t> &element_data);
+    GLuint load_model(const std::filesystem::path &ply_file, int32_t &element_count);
+    GLuint load_texture(const std::filesystem::path &texture_file);
+    GLuint load_shader(const std::filesystem::path &shader_file, GLenum shader_type);
 }
 
 #endif

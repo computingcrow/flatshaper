@@ -15,16 +15,17 @@
 // with this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-#ifndef FLATSHAPER_PLYUTIL_HPP
-#define FLATSHAPER_PLYUTIL_HPP
+#ifndef FLATSHAPER_ENTITY_HPP
+#define FLATSHAPER_ENTITY_HPP
 
-#include <filesystem>
-#include <vector>
+#include <cinttypes>
+
+typedef std::uint64_t entityid_t;
 
 namespace flatshaper {
-    void parse_ply(const std::filesystem::path &ply_file,
-                   std::vector<float> &vertex_data,
-                   std::vector<uint32_t> &element_data);
+    entityid_t generate_entity_id();
+    void delete_entity(entityid_t entityid);
+    bool is_entity_valid(entityid_t entityid);
 }
 
 #endif

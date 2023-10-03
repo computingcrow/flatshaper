@@ -15,16 +15,22 @@
 // with this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-#ifndef FLATSHAPER_PLYUTIL_HPP
-#define FLATSHAPER_PLYUTIL_HPP
+#ifndef FLATSHAPER_SYSTEMS_SYSTEM_PHYSICS_HPP
+#define FLATSHAPER_SYSTEMS_SYSTEM_PHYSICS_HPP
 
-#include <filesystem>
-#include <vector>
+#include <flatshaper/entity.hpp>
 
-namespace flatshaper {
-    void parse_ply(const std::filesystem::path &ply_file,
-                   std::vector<float> &vertex_data,
-                   std::vector<uint32_t> &element_data);
+#include <glm/vec3.hpp>
+#include <glm/mat4x4.hpp>
+
+#include <unordered_map>
+
+
+namespace flatshaper::systems {
+    extern std::unordered_map<entityid_t, glm::vec3> physics_position;
+    extern std::unordered_map<entityid_t, glm::mat4> physics_matrix;
+
+    void physics_simulate();
 }
 
 #endif
